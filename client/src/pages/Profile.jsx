@@ -17,7 +17,7 @@ import {
   signOutUserStart,
 } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -30,12 +30,13 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
-
+const navigate = useNavigate()
   // firebase storage
   // allow read;
   // allow write: if
   // request.resource.size < 2 * 1024 * 1024 &&
   // request.resource.contentType.matches('image/.*')
+  const auth_token = localStorage.getItem("authToken")
 
   useEffect(() => {
     if (file) {
@@ -75,11 +76,11 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`http://localhost:5000/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`http://localhost:5000/api/user/update/${currentUser.user._id}`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth_token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -99,7 +100,7 @@ export default function Profile() {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`http://localhost:5000/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`http://localhost:5000/api/user/delete/${currentUser.user._id}`, {
         method: 'DELETE',
    
       });
@@ -116,23 +117,23 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     try {
-      dispatch(signOutUserStart());
-      const res = await fetch('http://localhost:5000/api/auth/signout');
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data.message));
-        return;
-      }
-      dispatch(deleteUserSuccess(data));
+      localStorage.clear()
+      navigate("/sign-in")
+      
     } catch (error) {
-      dispatch(deleteUserFailure(data.message));
+      // dispatch(deleteUserFailure(data.message));
+      console.log(error)
+      return;
     }
   };
 
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
-      const res = await fetch(`http://localhost:5000/api/user/listings/${currentUser._id}`,{  credentials: 'include',});
+      const res = await fetch(`http://localhost:5000/api/user/listings/${currentUser.user._id}`,{headers:{
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth_token}`,
+      }});
       const data = await res.json();
       if (data.success === false) {
         setShowListingsError(true);
@@ -176,7 +177,7 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.avatar}
+          src={formData.avatar || currentUser.user.avatar}
           alt='profile'
           className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
         />
@@ -196,7 +197,7 @@ export default function Profile() {
         <input
           type='text'
           placeholder='username'
-          defaultValue={currentUser.username}
+          defaultValue={currentUser.user.username}
           id='username'
           className='border p-3 rounded-lg'
           onChange={handleChange}
@@ -205,7 +206,7 @@ export default function Profile() {
           type='email'
           placeholder='email'
           id='email'
-          defaultValue={currentUser.email}
+          defaultValue={currentUser.user.email}
           className='border p-3 rounded-lg'
           onChange={handleChange}
         />
