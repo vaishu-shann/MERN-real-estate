@@ -33,11 +33,11 @@ export const signin = async (req, res) => {
     console.log("userDoc", userDoc)
     console.log("userDoc.doc", userDoc._doc)
     const passOk = bcryptjs.compareSync(password, userDoc.password);
-    const { ...rest } = userDoc._doc;
+    const { ...user } = userDoc._doc;
     if (passOk) {
-      jwt.sign({ id: userDoc._id }, "jwt_secretKey", {}, (err, token) => {
+      jwt.sign({ user:{id: userDoc._id }}, "jwt_secretKey", {}, (err, token) => {
         if (err) throw err;
-        res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
+        res.status(200).json({user,token});
       });
     } else {
       res.status(400).json('email or password is not valid');

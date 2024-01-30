@@ -10,10 +10,7 @@ import config from './config.js';
 import cors from "cors"
 dotenv.config();
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
+app.use(cors());
 mongoose
   .connect("mongodb+srv://vaishnavi:Vaishnavi30@cluster0.ls1ernz.mongodb.net/real-estate?retryWrites=true&w=majority")
   .then(() => {
