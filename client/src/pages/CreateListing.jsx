@@ -14,7 +14,7 @@ export default function CreateListing() {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
-    imageUrls: ["https://img.freepik.com/free-photo/blue-house-with-blue-roof-sky-background_1340-25953.jpg"],
+    imageUrls: ["https://i.pinimg.com/564x/6a/47/a7/6a47a782fac174aa285c3ba3bd9391b7.jpg"],
     name: '',
     description: '',
     address: '',
