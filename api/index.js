@@ -10,7 +10,10 @@ import config from './config.js';
 import cors from "cors"
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 mongoose
   .connect("mongodb+srv://vaishnavi:Vaishnavi30@cluster0.ls1ernz.mongodb.net/real-estate?retryWrites=true&w=majority")
   .then(() => {
@@ -20,7 +23,7 @@ mongoose
     console.log(err);
   });
 
- 
+
 app.use(express.json());
 
 app.use(cookieParser());
@@ -46,5 +49,5 @@ app.use((err, req, res, next) => {
 
 app.listen(5000, () => {
   console.log('Server is running on port 5000!');
-  console.log("----",config.JWT_TOKEN);
+  console.log("----", config.JWT_TOKEN);
 });
