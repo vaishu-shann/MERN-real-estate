@@ -102,7 +102,9 @@ const navigate = useNavigate()
       dispatch(deleteUserStart());
       const res = await fetch(`http://localhost:5000/api/user/delete/${currentUser.user._id}`, {
         method: 'DELETE',
-   
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
       });
       const data = await res.json();
       if (data.success === false) {
@@ -150,6 +152,9 @@ const navigate = useNavigate()
     try {
       const res = await fetch(`http://localhost:5000/api/listing/delete/${listingId}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
       });
       const data = await res.json();
       if (data.success === false) {

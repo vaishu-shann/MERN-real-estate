@@ -32,7 +32,7 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const auth_token = localStorage.getItem("authToken")
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
@@ -152,7 +152,9 @@ export default function CreateListing() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth_token}`,
         },
+     
         body: JSON.stringify({
           ...formData,
           userRef: currentUser.user._id,

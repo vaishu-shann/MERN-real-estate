@@ -14,7 +14,7 @@ export default function CreateListing() {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
-    imageUrls: ["https://i.pinimg.com/564x/6a/47/a7/6a47a782fac174aa285c3ba3bd9391b7.jpg"],
+    imageUrls: ["https://res.cloudinary.com/brickandbatten/image/upload/c_scale,w_464,h_324,dpr_2/f_auto,q_auto/v1641000863/wordpress_assets/22826-ModContemporary-Accents_w-GauntletGray-a-ok.jpg?_i=AA"],
     name: '',
     description: '',
     address: '',
@@ -32,6 +32,7 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   console.log(formData);
+  const auth_token = localStorage.getItem("authToken")
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -136,6 +137,7 @@ export default function CreateListing() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth_token}`,
         },
         body: JSON.stringify({
           ...formData,
