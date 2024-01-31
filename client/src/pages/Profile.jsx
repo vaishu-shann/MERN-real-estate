@@ -31,6 +31,7 @@ export default function Profile() {
   const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
 const navigate = useNavigate()
+console.log("format doc", formData)
   // firebase storage
   // allow read;
   // allow write: if
@@ -123,7 +124,6 @@ const navigate = useNavigate()
       navigate("/sign-in")
       
     } catch (error) {
-      // dispatch(deleteUserFailure(data.message));
       console.log(error)
       return;
     }
@@ -182,7 +182,7 @@ const navigate = useNavigate()
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.user.avatar}
+          src={formData.avatar || currentUser.avatar?currentUser.avatar:currentUser.user.avatar}
           alt='profile'
           className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
         />
@@ -202,7 +202,7 @@ const navigate = useNavigate()
         <input
           type='text'
           placeholder='username'
-          defaultValue={currentUser.user.username}
+          defaultValue={currentUser.username ? currentUser.username : currentUser.user.username }
           id='username'
           className='border p-3 rounded-lg'
           onChange={handleChange}
@@ -211,7 +211,7 @@ const navigate = useNavigate()
           type='email'
           placeholder='email'
           id='email'
-          defaultValue={currentUser.user.email}
+          defaultValue={currentUser.email?currentUser.email : currentUser.user.email}
           className='border p-3 rounded-lg'
           onChange={handleChange}
         />

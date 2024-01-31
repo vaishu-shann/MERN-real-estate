@@ -25,7 +25,10 @@ export default function OAuth() {
           photo: result.user.photoURL,
         }),
       });
+      console.log("google res" ,res)
+
       const data = await res.json();
+      console.log("google data" ,data)
       dispatch(signInSuccess(data));
       navigate('/');
     } catch (error) {
