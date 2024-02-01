@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
+    "@thirdweb-dev/react": "^4.4.3",
+    "@thirdweb-dev/sdk": "^4.0.31",
+    "ethers": "^5.7.2",
     "firebase": "^10.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

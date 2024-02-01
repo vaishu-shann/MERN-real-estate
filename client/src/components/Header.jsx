@@ -2,6 +2,7 @@ import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { Web3Button } from "@thirdweb-dev/react";
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
@@ -70,6 +71,7 @@ export default function Header() {
               <li className=' text-slate-700 hover:underline'> Sign in</li>
             )}
           </Link>
+          <Web3Button/>
         </ul>
       </div>
     </header>
